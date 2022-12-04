@@ -34,9 +34,7 @@ public class Q20221204 extends BaseSolution {
     }
 
     private static boolean overlap(int x, int y, int i, int j) {
-        return fullyContain(x, y, i, j) ||
-                (x <= i && y >= i) ||
-                (i <= x && j >= x);
+        return (x <= i && y >= i) || (i <= x && j >= x);
     }
 
 }
