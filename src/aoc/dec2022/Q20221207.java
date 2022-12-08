@@ -4,7 +4,6 @@ import objectprinter.oj.BaseSolution;
 import objectprinter.oj.Run;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class Q20221207 extends BaseSolution {
 
@@ -20,8 +19,10 @@ public class Q20221207 extends BaseSolution {
     @Run({"input-aoc/Q20221207.txt"})
     public Integer part2(String s) {
         List<int[]> nodes = calculateNodes(s);
-        TreeSet<Integer> tree = nodes.stream().map(n -> n[1]).collect(Collectors.toCollection(TreeSet::new));
-        return tree.higher(nodes.get(0)[1] - 40000000);
+        int target = nodes.get(0)[1] - 40000000;
+        int min = Integer.MAX_VALUE;
+        for (int[] node : nodes) if (node[1] >= target) min = Math.min(min, node[1]);
+        return min;
     }
 
     private List<int[]> calculateNodes(String s) {
