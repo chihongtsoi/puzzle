@@ -76,9 +76,24 @@ public class Q20221209 extends BaseSolution {
         }
 
         public void pullFrom(Position rope) {
-            Direction d= Direction.getDirection(x - rope.x, y - rope.y);
+            Direction d = getPullDirection(x - rope.x, y - rope.y);
             x = rope.x + d.x;
             y = rope.y + d.y;
+        }
+
+        private static Direction getPullDirection(int x, int y) {
+            if (Math.abs(x) > Math.abs(y)) {
+                if (x > 0) return Direction.U;
+                return Direction.D;
+            } else if (Math.abs(x) < Math.abs(y)) {
+                if (y > 0) return Direction.R;
+                return Direction.L;
+            }
+            if (x == 2 && y == 2) return Direction.UR;
+            if (x == -2 && y == -2) return Direction.DL;
+            if (x == 2 && y == -2) return Direction.UL;
+            if (x == -2 && y == 2) return Direction.DR;
+            throw new IllegalStateException();
         }
 
         @Override
@@ -103,19 +118,5 @@ public class Q20221209 extends BaseSolution {
 
         int x, y;
 
-        public static Direction getDirection(int x, int y) {
-            if (Math.abs(x) > Math.abs(y)) {
-                if (x > 0) return U;
-                return D;
-            } else if (Math.abs(x) < Math.abs(y)) {
-                if (y > 0) return R;
-                return L;
-            }
-            if (x == 2 && y == 2) return UR;
-            if (x == -2 && y == -2) return DL;
-            if (x == 2 && y == -2) return UL;
-            if (x == -2 && y == 2) return DR;
-            throw new IllegalStateException();
-        }
     }
 }
