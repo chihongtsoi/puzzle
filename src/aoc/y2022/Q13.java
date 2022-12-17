@@ -1,11 +1,11 @@
-package aoc.dec2022;
+package aoc.y2022;
 
 import objectprinter.oj.BaseSolution;
 import objectprinter.oj.Run;
 
 import java.util.*;
 
-public class Q20221213 extends BaseSolution {
+public class Q13 extends BaseSolution {
 
     @Run({"input-aoc/Q20221213.txt"})
     public int part1(String s) {

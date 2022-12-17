@@ -1,4 +1,4 @@
-package aoc.dec2022;
+package aoc.y2022;
 
 import objectprinter.oj.BaseSolution;
 import objectprinter.oj.Run;
@@ -8,7 +8,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
-public class Q20221214 extends BaseSolution {
+public class Q14 extends BaseSolution {
 
     @Run({"input-aoc/Q20221214.txt"})
     public int part1(String s) {
@@ -22,8 +22,8 @@ public class Q20221214 extends BaseSolution {
         }
         Reservoir reservoir = new Reservoir(my, mx, paths);
         int drop = 0;
-        while (++drop > 0 && reservoir.drop()) ;
-        return drop - 1;
+        while (reservoir.drop()) drop++;
+        return drop;
     }
 
 

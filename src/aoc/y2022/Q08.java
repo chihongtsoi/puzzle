@@ -1,4 +1,4 @@
-package aoc.dec2022;
+package aoc.y2022;
 
 import lombok.AllArgsConstructor;
 import objectprinter.oj.BaseSolution;
@@ -9,7 +9,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Stack;
 
-public class Q20221208 extends BaseSolution {
+public class Q08 extends BaseSolution {
 
 
     @Run({"input-aoc/Q20221208.txt"})

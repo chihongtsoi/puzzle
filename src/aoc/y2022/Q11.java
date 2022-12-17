@@ -1,4 +1,4 @@
-package aoc.dec2022;
+package aoc.y2022;
 
 import lombok.AllArgsConstructor;
 import objectprinter.oj.BaseSolution;
@@ -6,7 +6,7 @@ import objectprinter.oj.Run;
 
 import java.util.*;
 
-public class Q20221211 extends BaseSolution {
+public class Q11 extends BaseSolution {
 
     private static final String OLD = "old";
 

@@ -1,4 +1,4 @@
-package aoc.dec2022;
+package aoc.y2022;
 
 import objectprinter.oj.BaseSolution;
 import objectprinter.oj.Run;
@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.stream.Collectors;
 
-public class Q20221210 extends BaseSolution {
+public class Q10 extends BaseSolution {
 
 
     @Run({"input-aoc/Q20221210.txt"})

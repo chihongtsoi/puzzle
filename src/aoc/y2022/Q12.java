@@ -1,11 +1,11 @@
-package aoc.dec2022;
+package aoc.y2022;
 
 import objectprinter.oj.BaseSolution;
 import objectprinter.oj.Run;
 
 import java.util.Arrays;
 
-public class Q20221212 extends BaseSolution {
+public class Q12 extends BaseSolution {
 
     private static final int[][] DIRECTION = {{0, 1}, {1, 0}, {-1, 0}, {0, -1}};
 
