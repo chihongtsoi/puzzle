@@ -11,6 +11,7 @@ import java.util.Scanner;
 public class Q18 extends BaseSolution {
 
     private static final int SPACE = 20;
+
     @Run({"input-aoc/Q20221218.txt"})
     public int part1(String s) {
         List<int[]> cubes = parseCubes(s);
@@ -30,11 +31,6 @@ public class Q18 extends BaseSolution {
         }
         return faces;
     }
-
-    private boolean inbound(int i, int b) {
-        return i >= 0 && i < b;
-    }
-
 
     @Run({"input-aoc/Q20221218.txt"})
     public int part2(String s) throws InterruptedException {
@@ -60,7 +56,7 @@ public class Q18 extends BaseSolution {
         for (int x = 0; x < SPACE; x++) {
             for (int y = 0; y < SPACE; y++) {
                 for (int z = 0; z < SPACE; z++) {
-                    if(space[x][y][z] || visited[x][y][z]) continue;
+                    if (space[x][y][z] || visited[x][y][z]) continue;
                     visited[x][y][z] = true;
                     boolean surround = true;
                     boolean[][][] traveled = new boolean[SPACE][SPACE][SPACE];
@@ -70,32 +66,33 @@ public class Q18 extends BaseSolution {
                         int _y = y + face.y;
                         int _z = z + face.z;
                         if (!inbound(_x, SPACE) || !inbound(_y, SPACE) || !inbound(_z, SPACE) || (!space[_x][_y][_z]
-                        &&!dfs(traveled, visited,space, _x,_y,_z))) {
+                                && !dfs(traveled, visited, space, _x, _y, _z))) {
                             surround = false;
                             break;
                         }
                     }
-                    if(surround) faces -= dfsCount(space, counted, x ,y ,z);
+                    if (surround) faces -= dfsCount(space, counted, x, y, z);
                 }
             }
         }
         return faces;
     }
 
-    private int dfsCount(boolean[][][] space, boolean[][][] counted, int x, int y, int z){
+    // TODO combine these two method to one method
+    private int dfsCount(boolean[][][] space, boolean[][][] counted, int x, int y, int z) {
         int count = 0;
         counted[x][y][z] = true;
         for (Face face : Face.values()) {
             int _x = x + face.x;
             int _y = y + face.y;
             int _z = z + face.z;
-            if(space[_x][_y][_z]) count++;
-            else if(!counted[_x][_y][_z])count+=dfsCount(space, counted, _x,_y,_z);
+            if (space[_x][_y][_z]) count++;
+            else if (!counted[_x][_y][_z]) count += dfsCount(space, counted, _x, _y, _z);
         }
         return count;
     }
 
-    private boolean dfs(boolean[][][] traveled, boolean[][][] visited, boolean[][][] space, int x, int y, int z){
+    private boolean dfs(boolean[][][] traveled, boolean[][][] visited, boolean[][][] space, int x, int y, int z) {
         visited[x][y][z] = true;
         traveled[x][y][z] = true;
         for (Face face : Face.values()) {
@@ -103,9 +100,13 @@ public class Q18 extends BaseSolution {
             int _y = y + face.y;
             int _z = z + face.z;
             if (!inbound(_x, SPACE) || !inbound(_y, SPACE) || !inbound(_z, SPACE) || (!space[_x][_y][_z]
-            && !traveled[_x][_y][_z] && !dfs(traveled, visited, space,_x, _y,_z))) return false;
+                    && !traveled[_x][_y][_z] && !dfs(traveled, visited, space, _x, _y, _z))) return false;
         }
         return true;
+    }
+
+    private boolean inbound(int i, int b) {
+        return i >= 0 && i < b;
     }
 
     private List<int[]> parseCubes(String s) {
