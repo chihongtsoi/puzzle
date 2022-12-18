@@ -10,7 +10,7 @@ import java.util.stream.LongStream;
 public class Q15 extends BaseSolution {
 
 
-    @Run({"input-aoc/Q20221216.txt"})
+    @Run({"input-aoc/Q20221215.txt"})
     public int part1(String s) {
         int ROW = 2000000;
         int COL_OFFSET = 10000000;
@@ -19,12 +19,12 @@ public class Q15 extends BaseSolution {
     }
 
 
-    @Run({"input-aoc/Q20221216.txt"})
+    @Run({"input-aoc/Q20221215.txt"})
     public Long part2(String s) throws InterruptedException {
         int MIN_BOUND = 0;
         int MAX_BOUND = 4000000;
         List<Sensor> sensors = parseSensors(s);
-        return LongStream.range(0, MAX_BOUND + 1).mapToObj(
+        return LongStream.range(0, MAX_BOUND + 1).parallel().mapToObj(
                 (row) -> {
                     BitSet bitSet = calcCoverage(sensors, (int) row, 0, MIN_BOUND, MAX_BOUND);
                     if (bitSet.cardinality() != 4000000) {
@@ -40,7 +40,7 @@ public class Q15 extends BaseSolution {
         BitSet bitSet = new BitSet();
         for (Sensor sensor : sensors) {
             int rowDistance = Math.abs(row - sensor.getY());
-            int distance = sensor.distance();
+            int distance = sensor.getDistance();
             int d = distance - rowDistance;
             if (d < 0) continue;
             if (d == 0) {
@@ -79,28 +79,22 @@ public class Q15 extends BaseSolution {
     static class Point {
         private final int x;
         private final int y;
-
-        @Override
-        public String toString() {
-            return "Point{" +
-                    "x=" + x +
-                    ", y=" + y +
-                    '}';
-        }
-
-
     }
 
     static class Sensor extends Point {
-        private final Point beacons;
+        private final int distance;
 
         public Sensor(Point self, Point beacons) {
             super(self.getX(), self.getY());
-            this.beacons = beacons;
+            this.distance = distance(beacons);
         }
 
-        public int distance() {
+        private int distance(Point beacons) {
             return Math.abs(getX() - beacons.getX()) + Math.abs(getY() - beacons.getY());
+        }
+
+        private int getDistance() {
+            return distance;
         }
     }
 }
