@@ -1,4 +1,4 @@
-package paiza;
+package paiza.s;
 
 import objectprinter.oj.BaseSolution;
 import objectprinter.oj.Run;
