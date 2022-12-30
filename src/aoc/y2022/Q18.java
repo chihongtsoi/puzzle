@@ -26,7 +26,7 @@ public class Q18 extends BaseSolution {
                 int _x = x + face.x;
                 int _y = y + face.y;
                 int _z = z + face.z;
-                if (inbound(_x, SPACE) && inbound(_y, SPACE) && inbound(_z, SPACE) && space[_x][_y][_z]) faces -= 2;
+                if (inBound(_x, SPACE) && inBound(_y, SPACE) && inBound(_z, SPACE) && space[_x][_y][_z]) faces -= 2;
             }
         }
         return faces;
@@ -47,7 +47,7 @@ public class Q18 extends BaseSolution {
                 int _x = x + face.x;
                 int _y = y + face.y;
                 int _z = z + face.z;
-                if (inbound(_x, SPACE) && inbound(_y, SPACE) && inbound(_z, SPACE) && space[_x][_y][_z]) faces -= 2;
+                if (inBound(_x, SPACE) && inBound(_y, SPACE) && inBound(_z, SPACE) && space[_x][_y][_z]) faces -= 2;
             }
         }
 
@@ -65,7 +65,7 @@ public class Q18 extends BaseSolution {
                         int _x = x + face.x;
                         int _y = y + face.y;
                         int _z = z + face.z;
-                        if (!inbound(_x, SPACE) || !inbound(_y, SPACE) || !inbound(_z, SPACE) || (!space[_x][_y][_z]
+                        if (!inBound(_x, SPACE) || !inBound(_y, SPACE) || !inBound(_z, SPACE) || (!space[_x][_y][_z]
                                 && !dfs(traveled, visited, space, _x, _y, _z))) {
                             surround = false;
                             break;
@@ -99,13 +99,13 @@ public class Q18 extends BaseSolution {
             int _x = x + face.x;
             int _y = y + face.y;
             int _z = z + face.z;
-            if (!inbound(_x, SPACE) || !inbound(_y, SPACE) || !inbound(_z, SPACE) || (!space[_x][_y][_z]
+            if (!inBound(_x, SPACE) || !inBound(_y, SPACE) || !inBound(_z, SPACE) || (!space[_x][_y][_z]
                     && !traveled[_x][_y][_z] && !dfs(traveled, visited, space, _x, _y, _z))) return false;
         }
         return true;
     }
 
-    private boolean inbound(int i, int b) {
+    private boolean inBound(int i, int b) {
         return i >= 0 && i < b;
     }
 
