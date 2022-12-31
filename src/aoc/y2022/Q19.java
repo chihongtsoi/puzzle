@@ -36,26 +36,8 @@ public class Q19 extends BaseSolution {
                 .reduce(1, (x, y) -> x * y);
     }
 
-    @Data
-    static final class Blueprint {
-        private final int id;
-        private final int oreRobotCost;
-        private final int clayRobotCost;
-        private final int obsidianRobotOreCost;
-        private final int obsidianRobotClayCost;
-        private final int geodeRobotOreCost;
-        private final int geodeRobotObsidianCost;
-
-        Blueprint(int id, int oreRobotCost, int clayRobotCost, int obsidianRobotOreCost, int obsidianRobotClayCost,
-                  int geodeRobotOreCost, int geodeRobotObsidianCost) {
-            this.id = id;
-            this.oreRobotCost = oreRobotCost;
-            this.clayRobotCost = clayRobotCost;
-            this.obsidianRobotOreCost = obsidianRobotOreCost;
-            this.obsidianRobotClayCost = obsidianRobotClayCost;
-            this.geodeRobotOreCost = geodeRobotOreCost;
-            this.geodeRobotObsidianCost = geodeRobotObsidianCost;
-        }
+    record Blueprint(int id, int oreRobotCost, int clayRobotCost, int obsidianRobotOreCost, int obsidianRobotClayCost,
+                     int geodeRobotOreCost, int geodeRobotObsidianCost) {
 
         public int qualityLevel() {
             return maxCollect() * id;
@@ -84,43 +66,28 @@ public class Q19 extends BaseSolution {
             private final boolean lockObsidian;
 
             @Override
-            public String toString() {
-                return "MaxCollectTask{" +
-                        "time=" + time +
-                        ", ore=" + ore +
-                        ", clay=" + clay +
-                        ", obsidian=" + obsidian +
-                        ", geode=" + geode +
-                        ", oreRobot=" + oreRobot +
-                        ", clayRobot=" + clayRobot +
-                        ", obsidianRobot=" + obsidianRobot +
-                        ", geodeRobot=" + geodeRobot +
-                        '}';
-            }
-
-            @Override
             protected Integer compute() {
 
                 if (time >= TIME_LIMIT) return geode;
                 List<ForkJoinTask<Integer>> tasks = new ArrayList<>(5);
-                boolean canMake1 = ore >= oreRobotCost;
-                boolean canMake2 = ore >= clayRobotCost;
-                boolean canMake3 = ore >= obsidianRobotOreCost && clay >= obsidianRobotClayCost;
+                boolean canMakeOreRobot = ore >= oreRobotCost;
+                boolean canMakeClayRobot = ore >= clayRobotCost;
+                boolean canMakeObsidianRobot = ore >= obsidianRobotOreCost && clay >= obsidianRobotClayCost;
 
                 tasks.add(new MaxCollectTask(time + 1, ore + oreRobot,
                         clay + clayRobot, obsidian + obsidianRobot, geode + geodeRobot,
-                        oreRobot, clayRobot, obsidianRobot, geodeRobot, canMake1, canMake2, canMake3).fork());
-                if (canMake1 && !lockOre) {
+                        oreRobot, clayRobot, obsidianRobot, geodeRobot, canMakeOreRobot, canMakeClayRobot, canMakeObsidianRobot).fork());
+                if (canMakeOreRobot && !lockOre) {
                     tasks.add(new MaxCollectTask(time + 1, ore - oreRobotCost + oreRobot,
                             clay + clayRobot, obsidian + obsidianRobot, geode + geodeRobot,
                             oreRobot + 1, clayRobot, obsidianRobot, geodeRobot, false, false, false).fork());
                 }
-                if (canMake2 && !lockClay) {
+                if (canMakeClayRobot && !lockClay) {
                     tasks.add(new MaxCollectTask(time + 1, ore - clayRobotCost + oreRobot,
                             clay + clayRobot, obsidian + obsidianRobot, geode + geodeRobot,
                             oreRobot, clayRobot + 1, obsidianRobot, geodeRobot, false, false, false).fork());
                 }
-                if (canMake3 && !lockObsidian) {
+                if (canMakeObsidianRobot && !lockObsidian) {
                     tasks.add(new MaxCollectTask(time + 1, ore - obsidianRobotOreCost + oreRobot,
                             clay - obsidianRobotClayCost + clayRobot, obsidian + obsidianRobot,
                             geode + geodeRobot, oreRobot, clayRobot, obsidianRobot + 1, geodeRobot, false, false, false)
@@ -132,11 +99,11 @@ public class Q19 extends BaseSolution {
                             geode + geodeRobot, oreRobot, clayRobot, obsidianRobot, geodeRobot + 1, false, false, false)
                             .fork());
                 }
-                return tasks.stream().map(this::sneakyThrowWrapper).max(Comparator.naturalOrder()).orElse(geode);
+                return tasks.stream().map(this::joinWithSneakThrows).max(Comparator.naturalOrder()).orElse(geode);
             }
 
             @SneakyThrows
-            private Integer sneakyThrowWrapper(ForkJoinTask<Integer> task) {
+            private Integer joinWithSneakThrows(ForkJoinTask<Integer> task) {
                 return task.join();
             }
         }
