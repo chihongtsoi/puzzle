@@ -2,7 +2,6 @@ package aoc.y2022;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import net.sourceforge.plantuml.board.PostIt;
 import objectprinter.oj.BaseSolution;
 import objectprinter.oj.Run;
 
@@ -21,11 +20,7 @@ public class Q23 extends BaseSolution {
     @Run({"input-aoc/Q20221223.txt"})
     public int part2(String s) {
         Ground ground = new Ground(s);
-        for (int i = 1;; i++) {
-            if(!ground.round()){
-                return i;
-            }
-        }
+        for (int i = 1; ; i++) if (!ground.round()) return i;
     }
 
     static class Ground {
@@ -38,7 +33,7 @@ public class Q23 extends BaseSolution {
             String[] lines = s.split("\n");
             for (int i = 0; i < lines.length; i++) {
                 for (int j = 0; j < lines[i].length(); j++) {
-                    if (lines[i].charAt(j)== '#') elves.add(new Position(i, j));
+                    if (lines[i].charAt(j) == '#') elves.add(new Position(i, j));
                 }
             }
         }
@@ -51,7 +46,7 @@ public class Q23 extends BaseSolution {
                     Direction direction = Direction.values()[(preferOffset + i) % Direction.values().length];
                     if (checkDirection(elf, direction)) {
                         propose.compute(elf.move(direction.direction), (k, v) -> {
-                            if (v == null) v=  new ArrayList<>();
+                            if (v == null) v = new ArrayList<>();
                             v.add(elf);
                             return v;
                         });
@@ -59,7 +54,7 @@ public class Q23 extends BaseSolution {
                     }
                 }
             }
-            int move=  0;
+            int move = 0;
             for (Map.Entry<Position, List<Position>> entry : propose.entrySet()) {
                 if (entry.getValue().size() > 1) continue;
                 Position elf = entry.getKey();
@@ -68,7 +63,7 @@ public class Q23 extends BaseSolution {
                 move++;
             }
             preferOffset++;
-            return move>0;
+            return move > 0;
         }
 
         public int emptyGround() {
@@ -94,7 +89,7 @@ public class Q23 extends BaseSolution {
             for (EightDirection dir : EightDirection.values()) {
                 int _x = x + dir.x;
                 int _y = y + dir.y;
-                if (elves.contains(reuse.set(_x,_y))) return false;
+                if (elves.contains(reuse.set(_x, _y))) return false;
             }
             return true;
         }
@@ -105,7 +100,7 @@ public class Q23 extends BaseSolution {
             for (EightDirection dir : direction.directions) {
                 int _x = x + dir.x;
                 int _y = y + dir.y;
-                if (elves.contains(reuse.set(_x,_y))) return false;
+                if (elves.contains(reuse.set(_x, _y))) return false;
             }
             return true;
         }
@@ -122,7 +117,7 @@ public class Q23 extends BaseSolution {
             return new Position(this.x + direction.x, this.y + direction.y);
         }
 
-        public Position set(int x, int y){
+        public Position set(int x, int y) {
             this.x = x;
             this.y = y;
             return this;
