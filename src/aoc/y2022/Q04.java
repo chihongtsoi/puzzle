@@ -1,11 +1,11 @@
-package aoc.dec2022;
+package aoc.y2022;
 
 import objectprinter.oj.BaseSolution;
 import objectprinter.oj.Run;
 
 import java.util.Scanner;
 
-public class Q20221204 extends BaseSolution {
+public class Q04 extends BaseSolution {
 
     @Run("input-aoc/Q20221204.txt")
     public int part1(String s) {
@@ -34,9 +34,7 @@ public class Q20221204 extends BaseSolution {
     }
 
     private static boolean overlap(int x, int y, int i, int j) {
-        return fullyContain(x, y, i, j) ||
-                (x <= i && y >= i) ||
-                (i <= x && j >= x);
+        return (x <= i && y >= i) || (i <= x && j >= x);
     }
 
 }
